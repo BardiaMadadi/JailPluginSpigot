@@ -33,9 +33,9 @@ public class jailcommands implements CommandExecutor {
                                     ChatColor.GREEN + args[1] +
                                     ChatColor.RED + " Be modate : " +
                                     ChatColor.GREEN + args[2] +
-                                    ChatColor.RED + " Be  Zendan miravid");
+                                    ChatColor.RED + " Rooz Be  Zendan miravid");
 
-                    doJail(target);
+                    doJail(target , Float.parseFloat(args[2]));
 
 
                 }else {
@@ -55,16 +55,16 @@ public class jailcommands implements CommandExecutor {
     }
 
 
-    public void doJail(Player target) {
+    public void doJail(Player target , float time) {
 
-        long timestamp = System.currentTimeMillis()+ 60 * 1000;
+        long timestamp;
+        timestamp = System.currentTimeMillis() + ((long) time * 20 * 60 * 1000);
 
         Location jailLocation;
         jailLocation = new Location(Bukkit.getWorld("world"),256 , 76 , 189);
 
         target.teleport(jailLocation);
         Jailsmp.jailAddPlayer(target.getUniqueId(),timestamp);
-        target.sendMessage("TIME IS :  " + "  " + System.currentTimeMillis());
         Jailsmp.jailFileDataSET();
 
 

@@ -77,12 +77,8 @@ public final class Jailsmp extends JavaPlugin {
                 long timestamp = System.currentTimeMillis();
                 if(jailPlayerTimeStamp < timestamp-5){
 
-                    long timeBetweenMin = timestamp - jailPlayerTimeStamp / 1000 / 60;
-
-
                     FileConf.set("player." + offlinePlayerUUID , null);
-                    Objects.requireNonNull(player.getPlayer()).sendMessage(ChatColor.GREEN + " [Police] : YOU ARE FREE NOW AT : " + jailPlayerTimeStamp +
-                            " WITH TIME : " +  timeBetweenMin);
+                    Objects.requireNonNull(player.getPlayer()).sendMessage(ChatColor.GREEN + " [Police] : YOU ARE FREE NOW ");
                 }
 
 
