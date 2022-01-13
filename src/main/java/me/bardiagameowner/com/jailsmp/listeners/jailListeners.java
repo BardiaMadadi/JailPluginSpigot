@@ -9,6 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import static me.bardiagameowner.com.jailsmp.Jailsmp.FileConf;
+
 public class jailListeners implements Listener {
 
     private jailHelper helper;
@@ -35,11 +37,12 @@ public class jailListeners implements Listener {
 
     public void doJail(Player target) {
 
+
+
         Location jailLocation;
-        jailLocation = new Location(Bukkit.getWorld("world"),256 , 76 , 189);
+        jailLocation = new Location(Bukkit.getWorld("world"),FileConf.getInt("jail-location-x"),FileConf.getInt("jail-location-y"),FileConf.getInt("jail-location-z"));
 
         target.teleport(jailLocation);
-
 
 
     }

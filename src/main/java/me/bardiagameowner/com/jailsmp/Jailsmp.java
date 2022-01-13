@@ -19,9 +19,8 @@ public final class Jailsmp extends JavaPlugin {
     // [ FILE ] : JAIL CONFIG FILE Var
 
     public static File file;
-    private static FileConfiguration FileConf;
+    public static FileConfiguration FileConf;
     // [ FILE ] : JAIL CONFIG FILE END
-
 
 
     @Override
@@ -48,6 +47,7 @@ public final class Jailsmp extends JavaPlugin {
         }
 
         FileConf = YamlConfiguration.loadConfiguration(file);
+
 
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {

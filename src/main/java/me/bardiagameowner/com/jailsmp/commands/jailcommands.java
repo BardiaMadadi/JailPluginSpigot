@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 
 import java.sql.Timestamp;
 
+import static me.bardiagameowner.com.jailsmp.Jailsmp.FileConf;
+
 public class jailcommands implements CommandExecutor {
 
     jailHelper helper;
@@ -60,8 +62,9 @@ public class jailcommands implements CommandExecutor {
         long timestamp;
         timestamp = System.currentTimeMillis() + ((long) time * 20 * 60 * 1000);
 
+
         Location jailLocation;
-        jailLocation = new Location(Bukkit.getWorld("world"),256 , 76 , 189);
+        jailLocation = new Location(Bukkit.getWorld("world"),FileConf.getInt("jail-location-x"),FileConf.getInt("jail-location-y"),FileConf.getInt("jail-location-z"));
 
         target.teleport(jailLocation);
         Jailsmp.jailAddPlayer(target.getUniqueId(),timestamp);
