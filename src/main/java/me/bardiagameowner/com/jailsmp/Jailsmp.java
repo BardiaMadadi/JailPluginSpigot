@@ -48,6 +48,9 @@ public final class Jailsmp extends JavaPlugin {
 
         FileConf = YamlConfiguration.loadConfiguration(file);
 
+        FileConf.getInt("jail-location-x");
+        FileConf.getInt("jail-location-y");
+        FileConf.getInt("jail-location-z");
 
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
