@@ -6,19 +6,18 @@ import me.bardiagameowner.com.jailsmp.helper.jailHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.boss.BarColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.sql.Timestamp;
 
 import static me.bardiagameowner.com.jailsmp.Jailsmp.FileConf;
 
 public class jailcommands implements CommandExecutor {
 
     jailHelper helper;
-
+    Jailsmp jailsmp;
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -60,7 +59,8 @@ public class jailcommands implements CommandExecutor {
     public void doJail(Player target , float time) {
 
         long timestamp;
-        timestamp = System.currentTimeMillis() + ((long) time * 20 * 60 * 1000);
+        float plusTime = time * 1200000;
+        timestamp = (long) (System.currentTimeMillis() + plusTime);
 
 
         Location jailLocation;
@@ -68,10 +68,18 @@ public class jailcommands implements CommandExecutor {
 
         target.teleport(jailLocation);
         Jailsmp.jailAddPlayer(target.getUniqueId(),timestamp);
+
+        jailHelper.bossbarAddJail(target,"YOU ARE IN JAIL " + time + " DAYS", BarColor.PURPLE);
+
         Jailsmp.jailFileDataSET();
 
 
+
+
+
+
     }
+
 
 
 

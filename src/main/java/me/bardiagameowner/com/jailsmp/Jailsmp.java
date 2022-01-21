@@ -1,11 +1,14 @@
 package me.bardiagameowner.com.jailsmp;
+
 import me.bardiagameowner.com.jailsmp.commands.jailcommands;
+import me.bardiagameowner.com.jailsmp.helper.jailHelper;
 import me.bardiagameowner.com.jailsmp.listeners.jailListeners;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -20,8 +23,10 @@ public final class Jailsmp extends JavaPlugin {
 
     public static File file;
     public static FileConfiguration FileConf;
-    // [ FILE ] : JAIL CONFIG FILE END
 
+
+    // [ FILE ] : JAIL CONFIG FILE END
+    public static jailcommands jailCmd;
 
     @Override
     public void onEnable() {
@@ -48,22 +53,26 @@ public final class Jailsmp extends JavaPlugin {
 
         FileConf = YamlConfiguration.loadConfiguration(file);
 
-        FileConf.getInt("jail-location-x");
-        FileConf.getInt("jail-location-y");
-        FileConf.getInt("jail-location-z");
+        if(!FileConf.contains("jail-location-x") || !FileConf.contains("jail-location-y") || !FileConf.contains("jail-location-z")){
+            FileConf.set("jail-location-x", 1);
+            FileConf.set("jail-location-y",1);
+            FileConf.set("jail-location-z",1);
+        }
+
+        jailFileDataSET();
 
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 
             public void run() {
                 IsJailFinish();
-
-
             }
-        }, 20, 200);
+        }, 0, 20);
+
 
 
     }
+
 
     public void IsJailFinish(){
 
@@ -82,9 +91,9 @@ public final class Jailsmp extends JavaPlugin {
 
                     FileConf.set("player." + offlinePlayerUUID , null);
                     Objects.requireNonNull(player.getPlayer()).sendMessage(ChatColor.GREEN + " [Police] : YOU ARE FREE NOW ");
+                    jailHelper.removeBossbar((Player) player);
+
                 }
-
-
 
             }
 
@@ -107,11 +116,6 @@ public final class Jailsmp extends JavaPlugin {
 
     }
 
-    public FileConfiguration jailFileDataGET(){
-
-        return FileConf;
-
-    }
     public static void jailFileDataSET(){
         try {
             FileConf.save(file);
@@ -141,3 +145,4 @@ public final class Jailsmp extends JavaPlugin {
 
 
 }
+

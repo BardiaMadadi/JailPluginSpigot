@@ -4,7 +4,6 @@ main: me.bardiagameowner.com.jailsmp.Jailsmp
 api-version: 1.17
 authors: [ bardiagameowner ]
 description: desc
-
 commands:
   jail:
     description: This Command is for Jail

@@ -1,9 +1,11 @@
 package me.bardiagameowner.com.jailsmp.listeners;
+
 import me.bardiagameowner.com.jailsmp.Jailsmp;
 import me.bardiagameowner.com.jailsmp.helper.jailHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.boss.BarColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,7 +43,7 @@ public class jailListeners implements Listener {
 
         Location jailLocation;
         jailLocation = new Location(Bukkit.getWorld("world"),FileConf.getInt("jail-location-x"),FileConf.getInt("jail-location-y"),FileConf.getInt("jail-location-z"));
-
+        jailHelper.bossbarAddJail(target," YOU ARE IN JAIL ", BarColor.PURPLE);
         target.teleport(jailLocation);
 
 
