@@ -1,32 +1,33 @@
 package me.bardiagameowner.com.jailsmp.listeners;
 
-import me.bardiagameowner.com.jailsmp.Jailsmp;
 import me.bardiagameowner.com.jailsmp.helper.jailHelper;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.boss.BarColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import static me.bardiagameowner.com.jailsmp.Jailsmp.FileConf;
+import static me.bardiagameowner.com.jailsmp.helper.jailHelper.doJail;
 
 public class jailListeners implements Listener {
-
-    private jailHelper helper;
 
 
     @EventHandler
 
+    // ON PLAYER JOINED GAME ;
     public void OnPlayerJoined(PlayerJoinEvent ev){
+
+        // SET NEW WELCOME MESSAGE
+
         ev.setJoinMessage(ChatColor.YELLOW + ev.getPlayer().getDisplayName() + ChatColor.AQUA + " Be Server Khosh Oomadi");
 
+        // GET PLAYER :
         Player target = ev.getPlayer();
 
-        if(Jailsmp.IsInJail(target.getUniqueId())){
-            doJail(target);
+        //IF PLAYER WAS IN JAIL :
+
+        if(jailHelper.IsInJail(target.getUniqueId())){
+            doJail(target,0);
         }
 
 
@@ -37,17 +38,7 @@ public class jailListeners implements Listener {
 
 
 
-    public void doJail(Player target) {
 
-
-
-        Location jailLocation;
-        jailLocation = new Location(Bukkit.getWorld("world"),FileConf.getInt("jail-location-x"),FileConf.getInt("jail-location-y"),FileConf.getInt("jail-location-z"));
-        jailHelper.bossbarAddJail(target," YOU ARE IN JAIL ", BarColor.PURPLE);
-        target.teleport(jailLocation);
-
-
-    }
 
 
 }

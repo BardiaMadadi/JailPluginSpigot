@@ -1,20 +1,17 @@
 package me.bardiagameowner.com.jailsmp;
 
 import me.bardiagameowner.com.jailsmp.commands.jailcommands;
-import me.bardiagameowner.com.jailsmp.helper.jailHelper;
 import me.bardiagameowner.com.jailsmp.listeners.jailListeners;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.UUID;
+
+import static me.bardiagameowner.com.jailsmp.helper.jailHelper.IsJailFinish;
+import static me.bardiagameowner.com.jailsmp.helper.jailHelper.jailFileDataSET;
 
 public final class Jailsmp extends JavaPlugin {
 
@@ -26,46 +23,29 @@ public final class Jailsmp extends JavaPlugin {
 
 
     // [ FILE ] : JAIL CONFIG FILE END
-    public static jailcommands jailCmd;
 
+
+
+
+
+    // ON PLUGIN LOADED
     @Override
     public void onEnable() {
 
+        // REGISTERS :
         registerListeners();
         registerCommands();
 
-
-        // [ FILE ] : JAIL CONFIG FILE
-
-        getConfig().options().copyDefaults();
-        saveDefaultConfig();
-
-        file = new File(getDataFolder(),"JailData.yml");
+        startConfigFile();
 
 
-        if (!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        FileConf = YamlConfiguration.loadConfiguration(file);
-
-        if(!FileConf.contains("jail-location-x") || !FileConf.contains("jail-location-y") || !FileConf.contains("jail-location-z")){
-            FileConf.set("jail-location-x", 1);
-            FileConf.set("jail-location-y",1);
-            FileConf.set("jail-location-z",1);
-        }
-
-        jailFileDataSET();
-
-
+        // LOOP THIS FUNC EVERY SECCOND
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 
             public void run() {
+
                 IsJailFinish();
+
             }
         }, 0, 20);
 
@@ -73,37 +53,11 @@ public final class Jailsmp extends JavaPlugin {
 
     }
 
-
-    public void IsJailFinish(){
-
-        for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+    // END OF ON-ENABLE ....
 
 
 
-            UUID offlinePlayerUUID = player.getUniqueId();
-
-            long jailPlayerTimeStamp = FileConf.getLong("player." + offlinePlayerUUID);
-
-            if(FileConf.contains("player." + offlinePlayerUUID)){
-
-                long timestamp = System.currentTimeMillis();
-                if(jailPlayerTimeStamp < timestamp-5){
-
-                    FileConf.set("player." + offlinePlayerUUID , null);
-                    Objects.requireNonNull(player.getPlayer()).sendMessage(ChatColor.GREEN + " [Police] : YOU ARE FREE NOW ");
-                    jailHelper.removeBossbar((Player) player);
-
-                }
-
-            }
-
-
-
-        }
-
-        jailFileDataSET();
-
-    }
+    // REGISTER COMMANDS / LISTENERS :
 
     public void registerListeners(){
 
@@ -115,34 +69,37 @@ public final class Jailsmp extends JavaPlugin {
         this.getCommand("jail").setExecutor(new jailcommands());
 
     }
+    public void startConfigFile(){
+        // [ FILE ] : JAIL CONFIG FILE
 
-    public static void jailFileDataSET(){
-        try {
-            FileConf.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
+        getConfig().options().copyDefaults();
+        saveDefaultConfig();
+
+        // [ FILE ] : MALE FILE
+
+        file = new File(getDataFolder(),"JailData.yml");
+
+        // [ FILE ] : IF FILE DOSE NOT EXIST : make file
+
+        if (!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
-    public static void jailAddPlayer(UUID uuid, long time){
 
-        FileConf.set("player." + uuid,time);
+        // LOAD CONFIG FILE
+        FileConf = YamlConfiguration.loadConfiguration(file);
+
+        if(!FileConf.contains("jail-location-x") || !FileConf.contains("jail-location-y") || !FileConf.contains("jail-location-z")){
+            FileConf.set("jail-location-x", 1);
+            FileConf.set("jail-location-y",1);
+            FileConf.set("jail-location-z",1);
+        }
+
         jailFileDataSET();
-
     }
-
-    public static Boolean IsInJail(UUID uuid){
-
-        if(FileConf.contains("player." + uuid)){
-            return true;
-
-        }else {
-            return false;
-        }
-
-
-    }
-
-
 
 }
 
